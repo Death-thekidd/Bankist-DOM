@@ -34,6 +34,7 @@ document.addEventListener('keydown', function (e: KeyboardEvent) {
 ////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////
 
+/*
 //* Selecting Elements
 console.log(document.documentElement);
 console.log(document.head);
@@ -112,3 +113,50 @@ logo.classList.contains('c');
 
 //! Dont use
 logo.className = 'jonas';
+
+
+const btnScrollTo: HTMLButtonElement =
+  document.querySelector('.btn--scroll-to')!;
+const section1: HTMLElement = document.querySelector('#section--1')!;
+
+btnScrollTo.addEventListener('click', (e: MouseEvent) => {
+  const s1coords: DOMRect = section1.getBoundingClientRect();
+  console.log(s1coords);
+
+  const node = e.target as HTMLElement;
+  console.log(node.getBoundingClientRect());
+  console.log('Current scroll (X/Y)', scrollX, scrollY);
+
+  console.log(
+    'height/width viewport',
+    document.documentElement.clientHeight,
+    document.documentElement.clientWidth
+  );
+
+  //* Scrolling
+  window.scrollTo(s1coords.left + scrollX, s1coords.top + scrollY);
+  
+  window.scrollTo({
+    left: s1coords.left + scrollX,
+    top: s1coords.top + scrollY,
+    behavior: 'smooth',
+  });
+  
+
+  section1.scrollIntoView({ behavior: 'smooth' });
+});
+*/
+
+const h1: HTMLElement = document.querySelector('h1')!;
+
+const alertH1 = (e: MouseEvent) => {
+  alert('addEventListener: Great: You are reading the ending :D');
+};
+
+h1.addEventListener('mouseenter', alertH1);
+
+setTimeout(() => h1.removeEventListener('mouseenter', alertH1), 3000);
+
+// h1.onmouseenter = (e: MouseEvent) => {
+//   alert('addEventListener: Great: You are reading the ending :D');
+// };
