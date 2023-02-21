@@ -22,6 +22,55 @@ document.addEventListener('keydown', function (e) {
         closeModal();
     }
 });
+const btnScrollTo = document.querySelector('.btn--scroll-to');
+const section1 = document.querySelector('#section--1');
+//* Button Scrolling
+btnScrollTo.addEventListener('click', (e) => {
+    const s1coords = section1.getBoundingClientRect();
+    console.log(s1coords);
+    const node = e.target;
+    console.log(node.getBoundingClientRect());
+    console.log('Current scroll (X/Y)', scrollX, scrollY);
+    console.log('height/width viewport', document.documentElement.clientHeight, document.documentElement.clientWidth);
+    /*
+    //* Scrolling
+    window.scrollTo(s1coords.left + scrollX, s1coords.top + scrollY);
+  
+    window.scrollTo({
+      left: s1coords.left + scrollX,
+      top: s1coords.top + scrollY,
+      behavior: 'smooth',
+    });
+    */
+    section1.scrollIntoView({ behavior: 'smooth' });
+});
+/////////////////////////////////////////////////////////////////
+//* Page navigation
+// (
+//   document.querySelectorAll('.nav__link') as NodeListOf<HTMLLinkElement>
+// ).forEach((el: HTMLLinkElement) => {
+//   el.addEventListener('click', function (this: HTMLLinkElement, e: MouseEvent) {
+//     e.preventDefault();
+//     const id: keyof HTMLElementTagNameMap = this.getAttribute(
+//       'href'
+//     ) as keyof HTMLElementTagNameMap;
+//     console.log(id);
+//     document.querySelector(id)?.scrollIntoView({ behavior: 'smooth' });
+//   });
+// });
+//* 1. Add event listener to common parent element
+//* 2. Determine what element originated the event
+document.querySelector('.nav__links')?.addEventListener('click', function (e) {
+    console.log(e.target);
+    const node = e.target;
+    e.preventDefault();
+    //* Matching strategy
+    if (node.classList.contains('nav__link')) {
+        const id = node.getAttribute('href');
+        console.log(id);
+        document.querySelector(id)?.scrollIntoView({ behavior: 'smooth' });
+    }
+});
 ////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////
 /*
@@ -105,38 +154,6 @@ logo.classList.contains('c');
 logo.className = 'jonas';
 
 
-const btnScrollTo: HTMLButtonElement =
-  document.querySelector('.btn--scroll-to')!;
-const section1: HTMLElement = document.querySelector('#section--1')!;
-
-btnScrollTo.addEventListener('click', (e: MouseEvent) => {
-  const s1coords: DOMRect = section1.getBoundingClientRect();
-  console.log(s1coords);
-
-  const node = e.target as HTMLElement;
-  console.log(node.getBoundingClientRect());
-  console.log('Current scroll (X/Y)', scrollX, scrollY);
-
-  console.log(
-    'height/width viewport',
-    document.documentElement.clientHeight,
-    document.documentElement.clientWidth
-  );
-
-  //* Scrolling
-  window.scrollTo(s1coords.left + scrollX, s1coords.top + scrollY);
-  
-  window.scrollTo({
-    left: s1coords.left + scrollX,
-    top: s1coords.top + scrollY,
-    behavior: 'smooth',
-  });
-  
-
-  section1.scrollIntoView({ behavior: 'smooth' });
-});
-
-
 const h1: HTMLElement = document.querySelector('h1')!;
 
 const alertH1 = (e: MouseEvent) => {
@@ -150,29 +167,37 @@ setTimeout(() => h1.removeEventListener('mouseenter', alertH1), 3000);
 // h1.onmouseenter = (e: MouseEvent) => {
 //   alert('addEventListener: Great: You are reading the ending :D');
 // };
-*/
+
+
 // rgb(255, 255, 255)
-const randomInt = (min, max) => Math.floor(Math.random() * (max - min + 1) - min);
-const randomColor = () => `rgb(${randomInt(0, 255)}, ${randomInt(0, 255)}, ${randomInt(0, 255)})`;
+const randomInt = (min: number, max: number) =>
+  Math.floor(Math.random() * (max - min + 1) - min);
+const randomColor = () =>
+  `rgb(${randomInt(0, 255)}, ${randomInt(0, 255)}, ${randomInt(0, 255)})`;
+
 document
-    .querySelector('.nav__link')
-    ?.addEventListener('click', function (e) {
+  .querySelector('.nav__link')
+  ?.addEventListener('click', function (this: any, e: Event) {
     this.style.backgroundColor = randomColor();
     console.log('LINK', e.target, e.currentTarget);
     console.log(e.currentTarget === this);
+
     //* Stop propagation
     // e.stopPropagation();
-});
+  });
+
 document
-    .querySelector('.nav__links')
-    ?.addEventListener('click', function (e) {
+  .querySelector('.nav__links')
+  ?.addEventListener('click', function (this: any, e: Event) {
     this.style.backgroundColor = randomColor();
     console.log('CONTAINER', e.target, e.currentTarget);
-});
+  });
+
 document
-    .querySelector('.nav')
-    ?.addEventListener('click', function (e) {
+  .querySelector('.nav')
+  ?.addEventListener('click', function (this: any, e: Event) {
     this.style.backgroundColor = randomColor();
     console.log('NAV', e.target, e.currentTarget);
-});
+  });
+*/
 //# sourceMappingURL=script.js.map

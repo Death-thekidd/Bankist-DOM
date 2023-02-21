@@ -31,6 +31,77 @@ document.addEventListener('keydown', function (e: KeyboardEvent) {
   }
 });
 
+const btnScrollTo: HTMLButtonElement =
+  document.querySelector('.btn--scroll-to')!;
+const section1: HTMLElement = document.querySelector('#section--1')!;
+
+//* Button Scrolling
+
+btnScrollTo.addEventListener('click', (e: MouseEvent) => {
+  const s1coords: DOMRect = section1.getBoundingClientRect();
+  console.log(s1coords);
+
+  const node = e.target as HTMLElement;
+  console.log(node.getBoundingClientRect());
+  console.log('Current scroll (X/Y)', scrollX, scrollY);
+
+  console.log(
+    'height/width viewport',
+    document.documentElement.clientHeight,
+    document.documentElement.clientWidth
+  );
+
+  /*
+  //* Scrolling
+  window.scrollTo(s1coords.left + scrollX, s1coords.top + scrollY);
+
+  window.scrollTo({
+    left: s1coords.left + scrollX,
+    top: s1coords.top + scrollY,
+    behavior: 'smooth',
+  });
+  */
+
+  section1.scrollIntoView({ behavior: 'smooth' });
+});
+
+/////////////////////////////////////////////////////////////////
+//* Page navigation
+
+// (
+//   document.querySelectorAll('.nav__link') as NodeListOf<HTMLLinkElement>
+// ).forEach((el: HTMLLinkElement) => {
+//   el.addEventListener('click', function (this: HTMLLinkElement, e: MouseEvent) {
+//     e.preventDefault();
+//     const id: keyof HTMLElementTagNameMap = this.getAttribute(
+//       'href'
+//     ) as keyof HTMLElementTagNameMap;
+//     console.log(id);
+//     document.querySelector(id)?.scrollIntoView({ behavior: 'smooth' });
+//   });
+// });
+
+//* 1. Add event listener to common parent element
+//* 2. Determine what element originated the event
+
+(document.querySelector('.nav__links') as HTMLElement)?.addEventListener(
+  'click',
+  function (this: HTMLElement, e: MouseEvent) {
+    console.log(e.target);
+    const node = e.target as HTMLElement;
+    e.preventDefault();
+
+    //* Matching strategy
+    if (node.classList.contains('nav__link')) {
+      const id: keyof HTMLElementTagNameMap = node.getAttribute(
+        'href'
+      ) as keyof HTMLElementTagNameMap;
+      console.log(id);
+      document.querySelector(id)?.scrollIntoView({ behavior: 'smooth' });
+    }
+  }
+);
+
 ////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////
 
@@ -115,38 +186,6 @@ logo.classList.contains('c');
 logo.className = 'jonas';
 
 
-const btnScrollTo: HTMLButtonElement =
-  document.querySelector('.btn--scroll-to')!;
-const section1: HTMLElement = document.querySelector('#section--1')!;
-
-btnScrollTo.addEventListener('click', (e: MouseEvent) => {
-  const s1coords: DOMRect = section1.getBoundingClientRect();
-  console.log(s1coords);
-
-  const node = e.target as HTMLElement;
-  console.log(node.getBoundingClientRect());
-  console.log('Current scroll (X/Y)', scrollX, scrollY);
-
-  console.log(
-    'height/width viewport',
-    document.documentElement.clientHeight,
-    document.documentElement.clientWidth
-  );
-
-  //* Scrolling
-  window.scrollTo(s1coords.left + scrollX, s1coords.top + scrollY);
-  
-  window.scrollTo({
-    left: s1coords.left + scrollX,
-    top: s1coords.top + scrollY,
-    behavior: 'smooth',
-  });
-  
-
-  section1.scrollIntoView({ behavior: 'smooth' });
-});
-
-
 const h1: HTMLElement = document.querySelector('h1')!;
 
 const alertH1 = (e: MouseEvent) => {
@@ -160,7 +199,7 @@ setTimeout(() => h1.removeEventListener('mouseenter', alertH1), 3000);
 // h1.onmouseenter = (e: MouseEvent) => {
 //   alert('addEventListener: Great: You are reading the ending :D');
 // };
-*/
+
 
 // rgb(255, 255, 255)
 const randomInt = (min: number, max: number) =>
@@ -192,3 +231,4 @@ document
     this.style.backgroundColor = randomColor();
     console.log('NAV', e.target, e.currentTarget);
   });
+*/
