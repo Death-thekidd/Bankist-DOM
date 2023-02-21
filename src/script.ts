@@ -219,16 +219,44 @@ document
   });
 
 document
-  .querySelector('.nav__links')
-  ?.addEventListener('click', function (this: any, e: Event) {
+  .querySelector('.nav__links')?.addEventListener('click', function (this: any, e: Event) {
     this.style.backgroundColor = randomColor();
     console.log('CONTAINER', e.target, e.currentTarget);
   });
 
 document
-  .querySelector('.nav')
-  ?.addEventListener('click', function (this: any, e: Event) {
+  .querySelector('.nav')?.addEventListener('click', function (this: any, e: Event) {
     this.style.backgroundColor = randomColor();
     console.log('NAV', e.target, e.currentTarget);
   });
+
+
+const h1: HTMLHeadingElement = document.querySelector('h1')!;
+
+//* Going donwards child
+console.log(h1?.querySelectorAll('.highlight'));
+console.log(h1.childNodes);
+console.log(h1.children);
+(h1.firstElementChild as HTMLElement).style.color = 'white';
+(h1.lastElementChild as HTMLElement).style.color = 'black';
+
+//* Going upwards: parents
+console.log(h1.parentNode);
+console.log(h1.parentElement);
+
+(h1.closest('.header') as HTMLElement).style.background =
+  'var(--gradient-secondary)';
+
+(h1.closest('h1') as HTMLElement).style.background = 'var(--gradient-primary)';
+
+//* Going sideways: siblings
+console.log(h1.previousElementSibling);
+console.log(h1.nextElementSibling);
+
+console.log(h1.parentElement?.children);
+[...(h1.parentElement?.children as HTMLCollectionOf<HTMLElement>)].forEach(
+  (el: HTMLElement) => {
+    if (el !== h1) el.style.transform = 'scale(0.5)';
+  }
+);
 */
