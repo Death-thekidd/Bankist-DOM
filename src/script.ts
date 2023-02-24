@@ -6,6 +6,15 @@ const overlay: HTMLElement = document.querySelector('.overlay')!;
 const btnCloseModal: HTMLElement = document.querySelector('.btn--close-modal')!;
 const btnsOpenModal: NodeListOf<HTMLElement> =
   document.querySelectorAll('.btn--show-modal')!;
+const tabs: NodeListOf<HTMLElement> =
+  document.querySelectorAll('.operations__tab')!;
+const tabContainer: HTMLElement = document.querySelector(
+  '.operations__tab-container'
+)!;
+const tabsContent: NodeListOf<HTMLElement> = document.querySelectorAll(
+  '.operations__content'
+)!;
+const nav: HTMLElement = document.querySelector('nav')!;
 
 const openModal = function (e: MouseEvent) {
   e.preventDefault();
@@ -103,14 +112,6 @@ btnScrollTo.addEventListener('click', (e: MouseEvent) => {
 );
 
 //* Tabbed component
-const tabs: NodeListOf<HTMLElement> =
-  document.querySelectorAll('.operations__tab')!;
-const tabContainer: HTMLElement = document.querySelector(
-  '.operations__tab-container'
-)!;
-const tabsContent: NodeListOf<HTMLElement> = document.querySelectorAll(
-  '.operations__content'
-)!;
 
 tabContainer.addEventListener('click', function (e: MouseEvent) {
   const clicked: HTMLElement = (e.target as HTMLElement).closest(
@@ -132,6 +133,26 @@ tabContainer.addEventListener('click', function (e: MouseEvent) {
     .querySelector(`.operations__content--${clicked.dataset.tab}`)
     ?.classList.add('operations__content--active');
 });
+
+//* Menu fade animation
+const handleHover = function (this: string, e: MouseEvent) {
+  if ((e.target as HTMLElement).classList.contains('nav__link')) {
+    const link = e.target as HTMLElement;
+    const siblings: NodeListOf<HTMLElement> = link
+      .closest('.nav')
+      ?.querySelectorAll('.nav__link')!;
+    const logo = link.closest('.nav')?.querySelector('img')!;
+
+    siblings.forEach(el => {
+      if (el !== link) el.style.opacity = this;
+    });
+    logo.style.opacity = this;
+  }
+};
+
+nav.addEventListener('mouseover', handleHover.bind('0.5'));
+
+nav.addEventListener('mouseout', handleHover.bind('1'));
 
 ////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////
