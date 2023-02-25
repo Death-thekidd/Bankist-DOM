@@ -190,7 +190,6 @@ const navHeight = nav.getBoundingClientRect().height;
 
 const stickyNav = function (entries: IntersectionObserverEntry[]) {
   const [entry] = entries;
-  console.log(entry);
 
   if (!entry.isIntersecting) nav.classList.add('sticky');
   else nav.classList.remove('sticky');
@@ -213,7 +212,6 @@ const revealSetion = function (
   observer: IntersectionObserver
 ) {
   const [entry] = entries;
-  console.log(observer);
 
   if (!entry.isIntersecting) return;
 
@@ -230,6 +228,37 @@ allSections.forEach(function (section: HTMLElement) {
   sectionObserver.observe(section);
   section.classList.add('section--hidden');
 });
+
+//* Lazy loading images
+const imgTargets: NodeListOf<HTMLImageElement> =
+  document.querySelectorAll('img[data-src]');
+
+const loadImg = function (
+  entries: IntersectionObserverEntry[],
+  observer: IntersectionObserver
+) {
+  const [entry] = entries;
+
+  if (!entry.isIntersecting) return;
+
+  //* Replace src with data-src
+  const node = entry.target as HTMLImageElement;
+  node.src = node.dataset.src as string;
+
+  node.addEventListener('load', function (e) {
+    node.classList.remove('lazy-img');
+  });
+
+  observer.unobserve(node);
+};
+
+const imgObserver = new IntersectionObserver(loadImg, {
+  root: null,
+  threshold: 0,
+  rootMargin: `-200px`,
+});
+
+imgTargets.forEach((img: HTMLImageElement) => imgObserver.observe(img));
 
 ////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////
